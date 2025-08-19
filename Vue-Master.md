@@ -314,3 +314,26 @@ let app = new Vue({
 app.name = 'vue2'  // 会触发 name 的 Watcher 的 update
 app.age = 21  // // 会触发 age 的 Watcher 的 update
 ```
+
+# 渲染机制
+具体内容详见[官方文档](https://cn.vuejs.org/guide/extras/rendering-mechanism.html)  
+## 补充  
+### 编译  
+从template模版到render function，需要经历几个过程：  
+1. parse 
+这个过程将template模版编译为AST（抽象语法树）  
+2. optimize 
+这个过程就是编译中的优化过程  
+3. generate 
+这个过程将AST转换为render function  
+
+# Vue整个生命过程  
+可以参考[从template到DOM](https://github.com/answershuto/learnVue/blob/master/docs/%E4%BB%8Etemplate%E5%88%B0DOM(Vue.js%E6%BA%90%E7%A0%81%E8%A7%92%E5%BA%A6%E7%9C%8B%E5%86%85%E9%83%A8%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6).MarkDown)这篇文章
+![](./images/lifeCycle.png)
+让我们从这张生命周期图来讲解。首先，一切从我们new了一个Vue对象开始，这个对象会调用一个_init方法，这个方法的任务就是进行各种初始化任务，在beforeCreate和created钩子中间会干一件很重要的事情，就是把模版中那些数据变成响应式的。  
+created钩子后，就进入到渲染阶段（详见渲染机制），也就是下面这张图片：  
+![](./images/render.png)
+当响应式数据变化时会重新生成一个VDOM，然后与旧的VDOM比较，进行diff比较，最小化更新部分。  
+
+# 异步更新
+可以参考[Vue.js异步更新DOM策略及nextTick](https://github.com/answershuto/learnVue/blob/master/docs/Vue.js%E5%BC%82%E6%AD%A5%E6%9B%B4%E6%96%B0DOM%E7%AD%96%E7%95%A5%E5%8F%8AnextTick.MarkDown)这篇文章  
